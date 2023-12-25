@@ -5,8 +5,8 @@ plugins {
 archivesBaseName = "lavasrc-plugin"
 lavalinkPlugin {
     name = "lavasrc-plugin"
-    apiVersion = "4.0.0"
-    serverVersion = "4.0.0"
+    apiVersion = gitHash("436763fe09b32fe26ee40cd238e3d1e910749cf9")
+    serverVersion = gitHash("436763fe09b32fe26ee40cd238e3d1e910749cf9")
     configurePublishing = false
 }
 
@@ -17,6 +17,8 @@ dependencies {
     implementation project(":main")
     compileOnly "com.github.topi314.lavasearch:lavasearch:1.0.0"
     implementation "com.github.topi314.lavasearch:lavasearch-plugin-api:1.0.0"
+    compileOnly "com.github.topi314.lavalyrics:lavalyrics:c107309"
+    implementation "com.github.topi314.lavalyrics:lavalyrics-plugin-api:c107309"
 }
 
 publishing {

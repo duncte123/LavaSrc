@@ -1,5 +1,7 @@
 package com.github.topi314.lavasrc.plugin;
 
+import com.github.topi314.lavalyrics.LyricsManager;
+import com.github.topi314.lavalyrics.api.LyricsManagerConfiguration;
 import com.github.topi314.lavasearch.SearchManager;
 import com.github.topi314.lavasearch.api.SearchManagerConfiguration;
 import com.github.topi314.lavasrc.applemusic.AppleMusicSourceManager;
@@ -17,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LavaSrcPlugin implements AudioPlayerManagerConfiguration, SearchManagerConfiguration {
+public class LavaSrcPlugin implements AudioPlayerManagerConfiguration, SearchManagerConfiguration, LyricsManagerConfiguration {
 
 	private static final Logger log = LoggerFactory.getLogger(LavaSrcPlugin.class);
 
@@ -133,4 +135,13 @@ public class LavaSrcPlugin implements AudioPlayerManagerConfiguration, SearchMan
 		return manager;
 	}
 
+	@NotNull
+	@Override
+	public LyricsManager configure(@NotNull LyricsManager manager) {
+		if (this.deezer != null) {
+			log.info("Registering Deezer lyrics manager...");
+			manager.registerLyricsManager(this.deezer);
+		}
+		return manager;
+	}
 }
