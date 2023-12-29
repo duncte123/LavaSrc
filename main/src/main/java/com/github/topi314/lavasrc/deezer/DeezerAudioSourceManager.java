@@ -1,8 +1,8 @@
 package com.github.topi314.lavasrc.deezer;
 
 import com.github.topi314.lavalyrics.AudioLyricsManager;
-import com.github.topi314.lavalyrics.result.AudioLyrics;
-import com.github.topi314.lavalyrics.result.BasicAudioLyrics;
+import com.github.topi314.lavalyrics.lyrics.AudioLyrics;
+import com.github.topi314.lavalyrics.lyrics.BasicAudioLyrics;
 import com.github.topi314.lavasearch.AudioSearchManager;
 import com.github.topi314.lavasearch.result.AudioSearchResult;
 import com.github.topi314.lavasearch.result.BasicAudioSearchResult;
@@ -150,8 +150,7 @@ public class DeezerAudioSourceManager extends ExtendedAudioSourceManager impleme
 			}
 			if (item instanceof AudioTrack) {
 				deezerTackId = ((AudioTrack) item).getIdentifier();
-			} else
-			if (item instanceof AudioPlaylist) {
+			} else if (item instanceof AudioPlaylist) {
 				var playlist = (AudioPlaylist) item;
 				if (!playlist.getTracks().isEmpty()) {
 					deezerTackId = playlist.getTracks().get(0).getIdentifier();
@@ -183,7 +182,7 @@ public class DeezerAudioSourceManager extends ExtendedAudioSourceManager impleme
 			));
 		}
 
-		return new BasicAudioLyrics(lyricsText, lyrics);
+		return new BasicAudioLyrics("deezer", lyricsText, lyrics);
 	}
 
 	@Override
