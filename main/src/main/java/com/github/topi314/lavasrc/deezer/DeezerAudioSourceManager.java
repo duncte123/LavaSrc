@@ -182,7 +182,7 @@ public class DeezerAudioSourceManager extends ExtendedAudioSourceManager impleme
 			));
 		}
 
-		return new BasicAudioLyrics("deezer", lyricsText, lyrics);
+		return new BasicAudioLyrics("deezer", "LyricFind", lyricsText, lyrics);
 	}
 
 	@Override
