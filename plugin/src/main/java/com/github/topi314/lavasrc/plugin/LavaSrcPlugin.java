@@ -10,7 +10,7 @@ import com.github.topi314.lavasrc.flowerytts.FloweryTTSSourceManager;
 import com.github.topi314.lavasrc.mirror.DefaultMirroringAudioTrackResolver;
 import com.github.topi314.lavasrc.spotify.SpotifySourceManager;
 import com.github.topi314.lavasrc.yandexmusic.YandexMusicSourceManager;
-import com.github.topi314.lavasrc.youtube.YoutubeSearchManager;
+import com.github.topi314.lavasrc.youtube.YoutubeSourceManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import dev.arbjerg.lavalink.api.AudioPlayerManagerConfiguration;
@@ -31,9 +31,9 @@ public class LavaSrcPlugin implements AudioPlayerManagerConfiguration, SearchMan
 	private DeezerAudioSourceManager deezer;
 	private YandexMusicSourceManager yandexMusic;
 	private FloweryTTSSourceManager flowerytts;
-	private YoutubeSearchManager youtube;
+	private YoutubeSourceManager youtube;
 
-	public LavaSrcPlugin(LavaSrcConfig pluginConfig, SourcesConfig sourcesConfig, SpotifyConfig spotifyConfig, AppleMusicConfig appleMusicConfig, DeezerConfig deezerConfig, YandexMusicConfig yandexMusicConfig, FloweryTTSConfig floweryTTSConfig) {
+	public LavaSrcPlugin(LavaSrcConfig pluginConfig, SourcesConfig sourcesConfig, SpotifyConfig spotifyConfig, AppleMusicConfig appleMusicConfig, DeezerConfig deezerConfig, YandexMusicConfig yandexMusicConfig, FloweryTTSConfig floweryTTSConfig, YouTubeConfig youTubeConfig) {
 		log.info("Loading LavaSrc plugin...");
 
 		if (sourcesConfig.isSpotify()) {
@@ -76,7 +76,7 @@ public class LavaSrcPlugin implements AudioPlayerManagerConfiguration, SearchMan
 			}
 		}
 		if (sourcesConfig.isYoutube()) {
-			this.youtube = new YoutubeSearchManager(() -> youtubeAudioSourceManager);
+			this.youtube = new YoutubeSourceManager(() -> youtubeAudioSourceManager, youTubeConfig.getCountryCode());
 		}
 	}
 
@@ -146,6 +146,10 @@ public class LavaSrcPlugin implements AudioPlayerManagerConfiguration, SearchMan
 		if (this.deezer != null) {
 			log.info("Registering Deezer lyrics manager...");
 			manager.registerLyricsManager(this.deezer);
+		}
+		if (this.youtube != null) {
+			log.info("Registering YouTube lyrics manager...");
+			manager.registerLyricsManager(this.youtube);
 		}
 		return manager;
 	}
