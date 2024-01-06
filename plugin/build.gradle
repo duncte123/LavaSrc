@@ -1,6 +1,5 @@
 plugins {
     id "dev.arbjerg.lavalink.gradle-plugin" version "1.0.15"
-    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
 }
 
 archivesBaseName = "lavasrc-plugin"
