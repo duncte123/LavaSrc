@@ -7,6 +7,7 @@ import com.github.topi314.lavasearch.api.SearchManagerConfiguration;
 import com.github.topi314.lavasrc.applemusic.AppleMusicSourceManager;
 import com.github.topi314.lavasrc.deezer.DeezerAudioSourceManager;
 import com.github.topi314.lavasrc.flowerytts.FloweryTTSSourceManager;
+import com.github.topi314.lavasrc.mirror.DefaultMirroringAudioTrackResolver;
 import com.github.topi314.lavasrc.spotify.SpotifySourceManager;
 import com.github.topi314.lavasrc.yandexmusic.YandexMusicSourceManager;
 import com.github.topi314.lavasrc.youtube.YoutubeSearchManager;
@@ -36,7 +37,7 @@ public class LavaSrcPlugin implements AudioPlayerManagerConfiguration, SearchMan
 		log.info("Loading LavaSrc plugin...");
 
 		if (sourcesConfig.isSpotify()) {
-			this.spotify = new SpotifySourceManager(pluginConfig.getProviders(), spotifyConfig.getClientId(), spotifyConfig.getClientSecret(), spotifyConfig.getCountryCode(), unused -> manager);
+			this.spotify = new SpotifySourceManager(spotifyConfig.getClientId(), spotifyConfig.getClientSecret(), spotifyConfig.getSpDc(), spotifyConfig.getCountryCode(), unused -> manager, new DefaultMirroringAudioTrackResolver(pluginConfig.getProviders()));
 			if (spotifyConfig.getPlaylistLoadLimit() > 0) {
 				this.spotify.setPlaylistPageLimit(spotifyConfig.getPlaylistLoadLimit());
 			}
@@ -138,6 +139,10 @@ public class LavaSrcPlugin implements AudioPlayerManagerConfiguration, SearchMan
 	@NotNull
 	@Override
 	public LyricsManager configure(@NotNull LyricsManager manager) {
+		if (this.spotify != null) {
+			log.info("Registering Spotify lyrics manager...");
+			manager.registerLyricsManager(this.spotify);
+		}
 		if (this.deezer != null) {
 			log.info("Registering Deezer lyrics manager...");
 			manager.registerLyricsManager(this.deezer);
